@@ -46,33 +46,8 @@ pero usando una base de datos **NoSQL (MongoDB)** en lugar de SQL.
 
 ---
 
-## 3. Cargar los datos demo (seed)
 
-El script `seed/seed.php` inserta en MongoDB los productos, usuarios y pedidos de ejemplo.
-
-**Opción A — por terminal** (recomendada), dentro de la carpeta del proyecto:
-```
-php seed/seed.php
-```
-
-**Opción B — por navegador:**
-```
-http://localhost/sanrioshop/seed/seed.php
-```
-
-Es seguro ejecutarlo varias veces: limpia y recarga las colecciones desde cero.
-
-Después de cargarlo puedes verificar en `mongosh`:
-```
-use productos
-db.producto.find()
-db.usuario.find()
-db.pedido.find()
-```
-
----
-
-## 4. Usar el sistema
+## 3. Usar el sistema
 
 Abre en el navegador:
 ```
@@ -84,7 +59,7 @@ http://localhost/sanrioshop/
 | Rol           | Email                | Contraseña  |
 |---------------|----------------------|-------------|
 | Cliente       | cliente@sanrio.com   | cliente123  |
-| Administrador | admin@sanrio.com     | admin123    |
+| Administrador | carloslucian343@gmail.com     | BobEsponja1    |
 
 - Como **cliente** puedes navegar el catálogo, agregar al carrito, capturar el envío y el
   pago, y generar un pedido (esto descuenta el stock en tiempo real).
@@ -95,7 +70,7 @@ http://localhost/sanrioshop/
 
 ---
 
-## 5. Estructura del proyecto (MVC)
+## 4. Estructura del proyecto (MVC)
 
 ```
 SanrioShop/
@@ -130,21 +105,9 @@ SanrioShop/
 │
 ├─ helpers/Helpers.php  ← Funciones de apoyo (rutas, escape, precios, flash)
 ├─ estilos/styles.css   ← Tema Sanrio (rosa/morado)
-├─ public/img/          ← Logo e imágenes locales
-└─ seed/seed.php        ← Carga de datos demo en MongoDB
+|─ public/img/          ← Logo e imágenes locales
+
 ```
-
-### Equivalencia con el proyecto de referencia (ProyectoWeb)
-
-| ProyectoWeb (SQL/PDO)      | SanrioShop (MongoDB)                  |
-|----------------------------|---------------------------------------|
-| `index.php` front controller | `index.php` (igual)                 |
-| `control/navbar.php` (router) | `control/router.php`               |
-| `modelo/Conexion.php` (PDO) | `modelo/Conexion.php` (driver Mongo)  |
-| Modelos con getters/setters | Modelos con getters/setters (igual)   |
-| Tablas SQL                  | Colecciones: `producto`, `usuario`, `pedido` |
-
----
 
 ## 6. Tecnologías usadas
 
