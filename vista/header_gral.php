@@ -32,7 +32,10 @@ $mensaje = obtenerFlash();
         <div class="d-flex align-items-center gap-3">
             <span>Lun - Vie: 9:00 - 19:00 | Sáb: 9:00 - 14:00</span>
             <?php if (AuthControlador::autenticado()): ?>
-                <span class="d-none d-md-inline">👋 Hola, <?php echo e($_SESSION['nombre']); ?></span>
+                <?php $destinoSaludo = AuthControlador::esAdmin() ? base('admin') : base('perfil'); ?>
+                <a href="<?php echo $destinoSaludo; ?>" class="d-none d-md-inline text-decoration-none text-white">
+                    <i class="fas fa-user-circle me-1"></i>Hola, <?php echo e($_SESSION['nombre']); ?>
+                </a>
             <?php endif; ?>
         </div>
     </div>

@@ -23,9 +23,11 @@ return [
     "db"         => "productos",
 
     /* --- Ruta base de la app ---------------------------------------
-     * Carpeta donde se publica el proyecto dentro del servidor web.
-     * Si lo pones en  htdocs/sanrioshop  deja  "/sanrioshop".
-     * Si lo pones en la raíz del dominio deja  "".
+     * YA NO ES NECESARIO TOCAR ESTO NI QUE COINCIDA CON EL NOMBRE DE
+     * LA CARPETA. La app detecta sola la ruta donde se publicó (ver
+     * función base() en helpers/Helpers.php), así que da igual si tu
+     * carpeta se llama SanrioShop, sanrioshop, papelerianosql, etc.
+     * Se deja aquí solo como referencia / respaldo, ya sin uso real.
      */
     "base_url"   => "/sanrioshop",
 

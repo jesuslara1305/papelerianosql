@@ -25,6 +25,12 @@ class PedidoControlador
         return $this->pedido->listar($estado);
     }
 
+    /** Pedidos de un cliente específico, para su vista de Perfil. */
+    public function listarPorCliente(string $email): array
+    {
+        return $this->pedido->listarPorEmail($email);
+    }
+
     /* -----------------------------------------------------------------
      *  Crea un pedido a partir de los datos de envío/pago + carrito.
      *  $datos: datos de $_POST (nombre, email, direccion, ciudad, cp).

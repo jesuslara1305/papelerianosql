@@ -29,6 +29,13 @@ switch ($ruta) {
         include 'vista/login.php';
         break;
 
+    /* ---------------- Perfil del cliente (requiere sesión) ---------------- */
+    case 'perfil':
+        if (!AuthControlador::autenticado()) { redirigir('login'); }
+        if (AuthControlador::esAdmin()) { redirigir('admin'); }
+        include 'vista/perfil.php';
+        break;
+
     /* ---------------- Carrito y checkout (requiere sesión) ---------------- */
     case 'carrito':
         if (!AuthControlador::autenticado()) { redirigir('login'); }

@@ -51,6 +51,14 @@ class Pedido
         ]);
     }
 
+    /** Lista los pedidos de UN cliente en particular (para su perfil). */
+    public function listarPorEmail(string $email): array
+    {
+        return $this->conexion->buscar(self::COLECCION, ['email' => $email], [
+            'sort' => ['no_pedido' => -1],
+        ]);
+    }
+
     /** Inserta un pedido nuevo. Devuelve no_pedido o false. */
     public function insertar()
     {

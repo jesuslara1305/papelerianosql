@@ -5,13 +5,21 @@
  *  Funciones de apoyo reutilizables en las vistas.
  * ===================================================================== */
 
-/* Devuelve la URL base configurada (para construir enlaces y rutas). */
+/* Devuelve la URL base de la app, detectada automáticamente.
+ * Así el proyecto funciona sin importar cómo se llame la carpeta
+ * (SanrioShop, papelerianosql, sanrioshop-2, etc.), porque ya no
+ * depende de que "base_url" esté escrito a mano en config.php. */
 function base(string $ruta = ''): string
 {
     static $base = null;
     if ($base === null) {
-        $config = require __DIR__ . '/../config/config.php';
-        $base = rtrim($config['base_url'], '/');
+        // SCRIPT_NAME es algo como: /papelerianosql/index.php
+        // Quitamos "/index.php" (o el archivo que sea) y nos quedamos
+        // con la carpeta real donde vive el proyecto en ESTE servidor.
+        $base = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/');
+        if ($base === '.') {
+            $base = '';
+        }
     }
     return $base . '/' . ltrim($ruta, '/');
 }
