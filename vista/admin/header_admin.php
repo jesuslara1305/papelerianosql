@@ -99,6 +99,7 @@ $tabActiva = $tabActiva ?? 'productos';
     <div class="admin-panel">
         <div class="d-flex gap-2 flex-wrap mb-4 border-bottom pb-3">
             <a href="<?php echo base('admin'); ?>"          class="admin-tab <?php echo $tabActiva === 'productos' ? 'activo' : ''; ?>"><i class="fas fa-box me-1"></i>Productos</a>
+            <a href="<?php echo base('admin/reabastecer'); ?>" class="admin-tab <?php echo $tabActiva === 'reabastecer' ? 'activo' : ''; ?>"><i class="fas fa-truck-loading me-1"></i>Reabastecer Inventario</a>
             <a href="<?php echo base('admin/reportes'); ?>" class="admin-tab <?php echo $tabActiva === 'reportes' ? 'activo' : ''; ?>"><i class="fas fa-chart-pie me-1"></i>Reportes</a>
             <a href="<?php echo base('admin/pedidos'); ?>"  class="admin-tab <?php echo $tabActiva === 'pedidos' ? 'activo' : ''; ?>"><i class="fas fa-clipboard-list me-1"></i>Gestión de Pedidos</a>
             <?php if ($tabActiva === 'productos'): ?>

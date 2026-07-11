@@ -254,3 +254,262 @@ main { flex: 1; }
     .hero h1 { font-size: 2rem; }
     .resumen-card { position: static; }
 }
+
+/* =====================================================================
+ *  CHECKOUT: pasos (Carrito -> Envío -> Pago)
+ *  Portado de ProyectoWeb, adaptado a la paleta rosa/morado kawaii.
+ * ===================================================================== */
+.checkout-steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.4rem 1rem 1.2rem;
+    margin-bottom: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+    min-height: 5rem;
+}
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .3rem;
+    min-width: 90px;
+}
+.step-circle {
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    background: #f3e8f7;
+    color: #c9a8d9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .9rem;
+    transition: background .2s, color .2s;
+    flex-shrink: 0;
+}
+.step.active .step-circle {
+    background: var(--grad);
+    color: #fff;
+    box-shadow: 0 0 0 4px rgba(236, 72, 153, .18);
+}
+.step.done .step-circle {
+    background: var(--morado);
+    color: #fff;
+}
+.step-label {
+    font-size: .72rem;
+    font-weight: 600;
+    color: #c9a8d9;
+    text-align: center;
+    white-space: normal;
+    line-height: 1.3;
+    max-width: 80px;
+}
+.step.active .step-label { color: var(--rosa); }
+.step.done   .step-label { color: var(--morado); }
+.step-line {
+    flex: 1;
+    height: 2px;
+    background: #f3e8f7;
+    max-width: 80px;
+    margin-bottom: 22px;
+    transition: background .2s;
+    flex-shrink: 1;
+}
+.step-line.done { background: var(--morado); }
+
+@media (max-width: 768px) {
+    .checkout-steps { padding: 1.2rem .75rem 1rem; margin-bottom: 1.25rem; min-height: 4.5rem; }
+    .step        { min-width: 70px; max-width: 90px; }
+    .step-circle { width: 2.1rem; height: 2.1rem; font-size: .82rem; }
+    .step-label  { font-size: .62rem; max-width: 70px; }
+    .step-line   { max-width: 30px; }
+}
+@media (max-width: 400px) {
+    .checkout-steps { padding: 1rem .4rem .9rem; margin-bottom: 1rem; min-height: 4rem; gap: 0; }
+    .step        { min-width: 58px; max-width: 72px; }
+    .step-circle { width: 1.9rem; height: 1.9rem; font-size: .75rem; }
+    .step.active .step-circle { box-shadow: 0 0 0 3px rgba(236, 72, 153, .18); }
+    .step-label  { font-size: .56rem; max-width: 60px; line-height: 1.2; }
+    .step-line   { min-width: 8px; max-width: 18px; }
+}
+
+/* =====================================================================
+ *  PAGO — tarjeta de pago con vista previa 3D (flip), portado de
+ *  ProyectoWeb y adaptado al tema Sanrio Shop.
+ * ===================================================================== */
+.pago-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: var(--sombra);
+    padding: 1.6rem 1.8rem;
+    border: 1px solid #f1e7f5;
+    margin-bottom: 1.4rem;
+}
+.pago-card h5 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #3b2145;
+    margin-bottom: 1.2rem;
+    padding-bottom: .7rem;
+    border-bottom: 2px solid #f6eefa;
+}
+
+/* Selector de método de pago */
+.pago-metodos { display: flex; gap: .6rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
+.pago-metodo-btn {
+    flex: 1;
+    min-width: 100px;
+    border: 2px solid #f1e0f5;
+    border-radius: 10px;
+    background: #fff;
+    padding: .6rem .5rem;
+    cursor: pointer;
+    text-align: center;
+    font-size: .78rem;
+    font-weight: 600;
+    color: #555;
+    transition: border-color .2s, color .2s, background .2s;
+}
+.pago-metodo-btn i { display: block; font-size: 1.35rem; margin-bottom: .25rem; }
+.pago-metodo-btn.active {
+    border-color: var(--rosa);
+    color: var(--rosa);
+    background: #fdf2f8;
+}
+.pago-panel        { display: none; }
+.pago-panel.active { display: block; }
+
+/* Tarjeta bancaria visual (flip 3-D) */
+.card-preview {
+    perspective: 1000px;
+    width: 100%;
+    max-width: 340px;
+    height: 195px;
+    margin: 0 auto 1.4rem;
+}
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform .6s cubic-bezier(.4,0,.2,1);
+}
+.card-inner.flipped { transform: rotateY(180deg); }
+.card-front,
+.card-back {
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    padding: 1.3rem 1.5rem;
+    color: #fff;
+    box-shadow: 0 12px 40px rgba(168, 85, 247, .25);
+    background: var(--grad);
+}
+.card-back {
+    transform: rotateY(180deg);
+    background: linear-gradient(135deg, var(--morado) 0%, var(--rosa) 100%);
+}
+.card-chip {
+    width: 38px; height: 28px;
+    background: #f0d98c;
+    border-radius: 5px;
+    margin-bottom: .8rem;
+    position: relative;
+    overflow: hidden;
+}
+.card-chip::after {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 1.5px solid rgba(0,0,0,.25);
+    border-radius: 3px;
+}
+.card-logo { position: absolute; top: 1.1rem; right: 1.2rem; }
+.card-logo i { font-size: 2rem; opacity: .9; }
+.card-number {
+    font-size: 1.08rem;
+    letter-spacing: .18em;
+    font-family: 'Courier New', monospace;
+    margin-bottom: .65rem;
+}
+.card-info-row { display: flex; justify-content: space-between; align-items: flex-end; }
+.card-label { font-size: .6rem; text-transform: uppercase; letter-spacing: .08em; opacity: .7; margin-bottom: .15rem; }
+.card-value { font-size: .82rem; font-weight: 600; letter-spacing: .05em; }
+.card-strip { background: #222; height: 42px; margin: 1.2rem -1.5rem 0; }
+.card-cvv-area { padding: .6rem 0 0; display: flex; align-items: center; justify-content: flex-end; gap: .7rem; }
+.card-cvv-box {
+    background: #fff;
+    color: #333;
+    border-radius: 5px;
+    padding: .3rem .8rem;
+    font-family: 'Courier New', monospace;
+    font-size: .85rem;
+    letter-spacing: .12em;
+    min-width: 60px;
+    text-align: center;
+}
+.card-cvv-label { font-size: .65rem; opacity: .7; }
+
+/* Inputs del formulario de pago */
+.pago-group { margin-bottom: 1rem; }
+.pago-group label { font-size: .78rem; font-weight: 600; color: #333; margin-bottom: .35rem; display: block; }
+.pago-input {
+    width: 100%;
+    border: 1.8px solid #ecdcf0;
+    border-radius: 8px;
+    padding: .55rem .8rem;
+    font-size: .88rem;
+    color: #3b2145;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+    background: #fdfbfe;
+}
+.pago-input:focus {
+    border-color: var(--rosa);
+    box-shadow: 0 0 0 3px rgba(236, 72, 153, .12);
+    background: #fff;
+}
+.pago-input::placeholder { color: #bbb; }
+.pago-row { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
+
+/* Íconos de tarjetas aceptadas */
+.tarjetas-aceptadas { display: flex; gap: .4rem; align-items: center; margin-bottom: .8rem; }
+.tarjeta-icon { font-size: 1.5rem; opacity: .6; }
+
+/* Aviso de vencimiento de tarjeta */
+#exp-error-msg { color: #dc3545; font-size: .76rem; margin-top: .3rem; }
+
+/* Badge de pago seguro */
+.seguridad-badge {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: .72rem;
+    color: #888;
+    margin-top: .8rem;
+    justify-content: center;
+}
+.seguridad-badge i { color: #27ae60; font-size: .85rem; }
+
+/* Resumen de artículos dentro del pago (miniatura + cantidad + precio) */
+.resumen-item {
+    display: flex;
+    gap: .8rem;
+    padding: .7rem 0;
+    border-bottom: 1px solid #f6eefa;
+}
+.resumen-item:last-child { border-bottom: none; }
+.resumen-item-info   { flex: 1; }
+.resumen-item-name   { font-size: .82rem; font-weight: 600; color: #3b2145; }
+.resumen-item-qty    { font-size: .75rem; color: #888; }
+.resumen-item-precio { font-size: .88rem; font-weight: 700; color: #3b2145; white-space: nowrap; }
+
+/* Controles de cantidad en el carrito, deshabilitados en los límites */
+.qty-btn:disabled { opacity: .4; cursor: not-allowed; }
+.stock-max-aviso { font-size: .72rem; color: #d97706; margin-top: .2rem; }

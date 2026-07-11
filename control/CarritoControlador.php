@@ -38,6 +38,9 @@ class CarritoControlador
     /* Agrega un producto. Valida que haya stock suficiente. */
     public function agregar(int $no, int $cantidad = 1): array
     {
+        // Nunca se acepta una cantidad negativa o en cero.
+        $cantidad = max(1, $cantidad);
+
         $p = $this->producto->obtener($no);
         if (!$p) {
             return ['error', 'El producto no existe.'];
@@ -74,15 +77,31 @@ class CarritoControlador
         return ['exito', 'Producto agregado al carrito.'];
     }
 
-    /* Cambia la cantidad de un item (+/-) */
+    /* Cambia la cantidad de un item (+/-).
+     * Igual que en ProyectoWeb: nunca se aceptan cantidades negativas
+     * ni en cero (mínimo 1 unidad), y nunca se permite superar el
+     * stock real disponible en MongoDB (se "clampa" al máximo). */
     public function actualizar(int $no, int $cantidad): void
     {
+        $stockMax = $this->stockDisponible($no);
+
         foreach ($_SESSION['carrito'] as $k => &$i) {
             if ($i['no_producto'] === $no) {
-                $i['cantidad'] = max(1, $cantidad);
+                $cantidadSegura = max(1, $cantidad);
+                if ($stockMax > 0) {
+                    $cantidadSegura = min($cantidadSegura, $stockMax);
+                }
+                $i['cantidad'] = $cantidadSegura;
             }
         }
         unset($i);
+    }
+
+    /* Stock real disponible de un producto en MongoDB (0 si no existe). */
+    public function stockDisponible(int $no): int
+    {
+        $p = $this->producto->obtener($no);
+        return $p ? (int) $p['stock'] : 0;
     }
 
     /* Quita un item del carrito */

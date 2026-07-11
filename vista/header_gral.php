@@ -4,7 +4,7 @@
  *  (topbar + navbar). Se incluye al inicio de cada vista pública.
  * ===================================================================== */
 $carrito = new CarritoControlador();
-$totalCarrito = $carrito->totalItems();
+$totalCarrito = AuthControlador::esAdmin() ? 0 : $carrito->totalItems();
 $mensaje = obtenerFlash();
 ?>
 <!DOCTYPE html>
@@ -60,12 +60,14 @@ $mensaje = obtenerFlash();
         </div>
 
         <div class="d-flex align-items-center gap-3">
-            <a href="<?php echo base('carrito'); ?>" class="position-relative text-decoration-none text-dark fs-5">
-                <i class="fas fa-shopping-cart"></i>
-                <?php if ($totalCarrito > 0): ?>
-                    <span class="cart-badge"><?php echo $totalCarrito; ?></span>
-                <?php endif; ?>
-            </a>
+            <?php if (!AuthControlador::esAdmin()): ?>
+                <a href="<?php echo base('carrito'); ?>" class="position-relative text-decoration-none text-dark fs-5">
+                    <i class="fas fa-shopping-cart"></i>
+                    <?php if ($totalCarrito > 0): ?>
+                        <span class="cart-badge"><?php echo $totalCarrito; ?></span>
+                    <?php endif; ?>
+                </a>
+            <?php endif; ?>
             <?php if (AuthControlador::autenticado()): ?>
                 <form method="post" action="<?php echo base(''); ?>" class="m-0">
                     <input type="hidden" name="accion" value="logout">

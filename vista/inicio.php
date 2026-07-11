@@ -78,7 +78,7 @@ $categorias = [
                     <div class="col-md-4">
                         <div class="prod-card">
                             <div class="position-relative">
-                                <img class="prod-img" src="<?php echo e($p['imagen']); ?>" alt="<?php echo e($p['nombre']); ?>">
+                                <img class="prod-img" src="<?php echo e(imagenSrc($p['imagen'])); ?>" alt="<?php echo e($p['nombre']); ?>">
                                 <span class="prod-badge"><?php echo e($p['categoria']); ?></span>
                             </div>
                             <div class="p-3 d-flex flex-column flex-grow-1">
@@ -90,14 +90,20 @@ $categorias = [
                                     <span class="text-muted ms-1">(<?php echo number_format($p['rating'], 1); ?>)</span>
                                 </div>
                                 <span class="prod-precio mb-3"><?php echo precio($p['precio']); ?></span>
-                                <form method="post" action="<?php echo base(''); ?>" class="mt-auto">
-                                    <input type="hidden" name="accion" value="agregar_carrito">
-                                    <input type="hidden" name="no_producto" value="<?php echo $p['no_producto']; ?>">
-                                    <input type="hidden" name="volver" value="inicio">
-                                    <button class="btn btn-sanrio w-100">
-                                        <i class="fas fa-shopping-cart me-1"></i>Agregar al Carrito
-                                    </button>
-                                </form>
+                                <?php if (AuthControlador::esAdmin()): ?>
+                                    <a href="<?php echo base('admin/reabastecer'); ?>" class="btn btn-outline-sanrio w-100 mt-auto">
+                                        <i class="fas fa-truck-loading me-1"></i>Gestionar Inventario
+                                    </a>
+                                <?php else: ?>
+                                    <form method="post" action="<?php echo base(''); ?>" class="mt-auto">
+                                        <input type="hidden" name="accion" value="agregar_carrito">
+                                        <input type="hidden" name="no_producto" value="<?php echo $p['no_producto']; ?>">
+                                        <input type="hidden" name="volver" value="inicio">
+                                        <button class="btn btn-sanrio w-100">
+                                            <i class="fas fa-shopping-cart me-1"></i>Agregar al Carrito
+                                        </button>
+                                    </form>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>

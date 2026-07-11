@@ -71,3 +71,21 @@ function colorEstado(string $estado): string
         default      => 'light',
     };
 }
+
+/* Resuelve la URL para mostrar la imagen de un producto:
+ * - Si es una URL externa (http/https), se usa tal cual (compatibilidad
+ *   con productos sembrados con imágenes de ejemplo).
+ * - Si es un nombre de archivo (subido desde el panel admin), se arma
+ *   la ruta hacia public/uploads/productos/.
+ * - Si viene vacío, se muestra un placeholder. */
+function imagenSrc(?string $imagen): string
+{
+    $imagen = trim((string) $imagen);
+    if ($imagen === '') {
+        return 'https://placehold.co/300x300?text=Sin+Imagen';
+    }
+    if (preg_match('#^(https?:)?//#i', $imagen)) {
+        return $imagen;
+    }
+    return base('public/uploads/productos/' . $imagen);
+}

@@ -156,6 +156,15 @@ class Producto
         return $n >= 0;
     }
 
+    /** Reabastece (suma) unidades al stock actual, sin tocar ventas. */
+    public function incrementarStock(int $no, int $cantidad): bool
+    {
+        $n = $this->conexion->actualizar(self::COLECCION,
+            ['no_producto' => $no],
+            ['$inc' => ['stock' => $cantidad]]);
+        return $n >= 0;
+    }
+
     /* ------------------- GETTERS / SETTERS ------------------- */
     public function setNo_producto($v) { $this->no_producto = $v; }
     public function getNo_producto()   { return $this->no_producto; }

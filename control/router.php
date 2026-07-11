@@ -36,19 +36,22 @@ switch ($ruta) {
         include 'vista/perfil.php';
         break;
 
-    /* ---------------- Carrito y checkout (requiere sesión) ---------------- */
+    /* ---------------- Carrito y checkout (requiere sesión de cliente) ---------------- */
     case 'carrito':
         if (!AuthControlador::autenticado()) { redirigir('login'); }
+        if (AuthControlador::esAdmin()) { redirigir('admin'); }
         include 'vista/carrito.php';
         break;
 
     case 'envio':
         if (!AuthControlador::autenticado()) { redirigir('login'); }
+        if (AuthControlador::esAdmin()) { redirigir('admin'); }
         include 'vista/checkout/direccion.php';
         break;
 
     case 'pago':
         if (!AuthControlador::autenticado()) { redirigir('login'); }
+        if (AuthControlador::esAdmin()) { redirigir('admin'); }
         include 'vista/checkout/pago.php';
         break;
 
@@ -65,6 +68,9 @@ switch ($ruta) {
                 break;
             case 'reportes':
                 include 'vista/admin/reportes.php';
+                break;
+            case 'reabastecer':
+                include 'vista/admin/reabastecer.php';
                 break;
             default:
                 include 'vista/admin/dashboard.php';

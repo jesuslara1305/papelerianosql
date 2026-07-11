@@ -57,10 +57,10 @@ $mensaje = obtenerFlash();
                     <input type="email" name="email" class="form-control mb-3" placeholder="cliente@sanrio.com" required>
                     <label class="form-label fw-semibold small">Contraseña</label>
                     <input type="password" name="password" class="form-control mb-3" placeholder="••••••••" required>
-                    <div class="demo-box mb-3">
+                  <!--  <div class="demo-box mb-3">
                         <strong>Demo - Usuario de prueba:</strong><br>
                         cliente@sanrio.com<br>cliente123
-                    </div>
+                    </div>-->
                     <button class="btn btn-sanrio w-100"><i class="fas fa-right-to-bracket me-1"></i>Iniciar Sesión</button>
                 </form>
             </div>
@@ -74,10 +74,10 @@ $mensaje = obtenerFlash();
                     <input type="email" name="email" class="form-control mb-3" placeholder="admin@sanrio.com" required>
                     <label class="form-label fw-semibold small">Contraseña</label>
                     <input type="password" name="password" class="form-control mb-3" placeholder="••••••••" required>
-                    <div class="demo-box mb-3">
+                   <!--<div class="demo-box mb-3">
                         <strong>Demo - Administrador:</strong><br>
                         admin@sanrio.com<br>admin123
-                    </div>
+                    </div>-->
                     <button class="btn btn-sanrio w-100"><i class="fas fa-right-to-bracket me-1"></i>Iniciar Sesión</button>
                 </form>
             </div>

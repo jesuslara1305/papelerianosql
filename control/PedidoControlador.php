@@ -66,7 +66,11 @@ class PedidoControlador
         $this->pedido->setItems($carrito);
         $this->pedido->setSubtotal($subtotal);
         $this->pedido->setEnvio(0); // Envío gratis, como en las vistas del PDF
-        $this->pedido->setTotal($subtotal);
+
+        // Total con IVA (16%), igual que en ProyectoWeb: $total += $total*0.16;
+        $total = $subtotal;
+        $total += $total * 0.16;
+        $this->pedido->setTotal($total);
         $this->pedido->setEstado('pendiente');
 
         $no = $this->pedido->insertar();

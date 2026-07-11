@@ -62,7 +62,7 @@ $productos = $prodCtrl->listar();
                     <div class="modal fade" id="modalEditar<?php echo $p['no_producto']; ?>" tabindex="-1">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content rounded-4">
-                                <form method="post" action="<?php echo base(''); ?>">
+                                <form method="post" action="<?php echo base(''); ?>" enctype="multipart/form-data">
                                     <input type="hidden" name="accion" value="admin_editar_producto">
                                     <input type="hidden" name="no_producto" value="<?php echo $p['no_producto']; ?>">
                                     <div class="modal-header border-0">
@@ -84,15 +84,20 @@ $productos = $prodCtrl->listar();
                                         </div>
                                         <div class="row g-2">
                                             <div class="col"><label class="form-label small fw-semibold">Precio</label>
-                                                <input type="number" step="0.01" name="precio" class="form-control" value="<?php echo $p['precio']; ?>" required></div>
+                                                <input type="number" step="0.01" min="0.01" name="precio" class="form-control" value="<?php echo $p['precio']; ?>" required></div>
                                             <div class="col"><label class="form-label small fw-semibold">Stock</label>
-                                                <input type="number" name="stock" class="form-control" value="<?php echo $p['stock']; ?>"></div>
+                                                <input type="number" step="1" min="0" max="100000" name="stock" class="form-control" value="<?php echo $p['stock']; ?>"></div>
                                             <div class="col"><label class="form-label small fw-semibold">Mínimo</label>
-                                                <input type="number" name="stock_minimo" class="form-control" value="<?php echo $p['stock_minimo']; ?>"></div>
+                                                <input type="number" step="1" min="1" name="stock_minimo" class="form-control" value="<?php echo max(1, (int) $p['stock_minimo']); ?>"></div>
                                         </div>
                                         <div class="mt-2">
-                                            <label class="form-label small fw-semibold">URL de Imagen</label>
-                                            <input type="text" name="imagen" class="form-control" value="<?php echo e($p['imagen']); ?>">
+                                            <label class="form-label small fw-semibold">Imagen del producto</label>
+                                            <div class="d-flex align-items-center gap-2 mb-2">
+                                                <img src="<?php echo e(imagenSrc($p['imagen'])); ?>" alt="" style="width:44px;height:44px;object-fit:cover;border-radius:8px;border:1px solid #f1e7f5;">
+                                                <span class="text-muted small">Imagen actual</span>
+                                            </div>
+                                            <input type="file" name="imagen" class="form-control" accept="image/png,image/jpeg,image/jpg,image/webp,image/gif,image/svg+xml">
+                                            <div class="form-text">Deja este campo vacío para conservar la imagen actual. Formatos: PNG, JPG, JPEG, WEBP, GIF, SVG.</div>
                                         </div>
                                         <div class="form-check mt-2">
                                             <input type="checkbox" name="destacado" class="form-check-input" id="dest<?php echo $p['no_producto']; ?>" <?php echo !empty($p['destacado']) ? 'checked' : ''; ?>>
@@ -117,7 +122,7 @@ $productos = $prodCtrl->listar();
 <div class="modal fade" id="modalAgregar" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content rounded-4">
-            <form method="post" action="<?php echo base(''); ?>">
+            <form method="post" action="<?php echo base(''); ?>" enctype="multipart/form-data">
                 <input type="hidden" name="accion" value="admin_agregar_producto">
                 <div class="modal-header border-0">
                     <h5 class="modal-title fw-bold">Agregar Producto</h5>
@@ -142,15 +147,16 @@ $productos = $prodCtrl->listar();
                     </div>
                     <div class="row g-2">
                         <div class="col"><label class="form-label small fw-semibold">Precio</label>
-                            <input type="number" step="0.01" name="precio" class="form-control" required></div>
+                            <input type="number" step="0.01" min="0.01" name="precio" class="form-control" required></div>
                         <div class="col"><label class="form-label small fw-semibold">Stock</label>
-                            <input type="number" name="stock" class="form-control" value="0"></div>
+                            <input type="number" step="1" min="0" max="100000" name="stock" class="form-control" value="0"></div>
                         <div class="col"><label class="form-label small fw-semibold">Mínimo</label>
-                            <input type="number" name="stock_minimo" class="form-control" value="3"></div>
+                            <input type="number" step="1" min="1" name="stock_minimo" class="form-control" value="1"></div>
                     </div>
                     <div class="mt-2">
-                        <label class="form-label small fw-semibold">URL de Imagen</label>
-                        <input type="text" name="imagen" class="form-control" placeholder="https://...">
+                        <label class="form-label small fw-semibold">Imagen del producto</label>
+                        <input type="file" name="imagen" class="form-control" accept="image/png,image/jpeg,image/jpg,image/webp,image/gif,image/svg+xml" required>
+                        <div class="form-text">Formatos permitidos: PNG, JPG, JPEG, WEBP, GIF, SVG.</div>
                     </div>
                     <div class="form-check mt-2">
                         <input type="checkbox" name="destacado" class="form-check-input" id="destNuevo">

@@ -37,7 +37,7 @@ $categorias = ['Peluches', 'Accesorios', 'Papelería', 'Decoración'];
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="prod-card">
                         <div class="position-relative">
-                            <img class="prod-img" src="<?php echo e($p['imagen']); ?>" alt="<?php echo e($p['nombre']); ?>">
+                            <img class="prod-img" src="<?php echo e(imagenSrc($p['imagen'])); ?>" alt="<?php echo e($p['nombre']); ?>">
                             <span class="prod-badge"><?php echo e($p['categoria']); ?></span>
                         </div>
                         <div class="p-3 d-flex flex-column flex-grow-1">
@@ -50,6 +50,10 @@ $categorias = ['Peluches', 'Accesorios', 'Papelería', 'Decoración'];
                             <span class="prod-precio mb-2"><?php echo precio($p['precio']); ?></span>
                             <?php if ($p['stock'] <= 0): ?>
                                 <button class="btn btn-secondary w-100 mt-auto" disabled>Agotado</button>
+                            <?php elseif (AuthControlador::esAdmin()): ?>
+                                <a href="<?php echo base('admin/reabastecer'); ?>" class="btn btn-outline-sanrio w-100 mt-auto">
+                                    <i class="fas fa-truck-loading me-1"></i>Gestionar Inventario
+                                </a>
                             <?php else: ?>
                                 <form method="post" action="<?php echo base(''); ?>" class="mt-auto">
                                     <input type="hidden" name="accion" value="agregar_carrito">

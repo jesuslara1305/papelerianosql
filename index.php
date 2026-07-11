@@ -63,9 +63,10 @@ switch ($accion) {
         redirigir('login');
         break;
 
-    /* ---- Carrito ---- */
+    /* ---- Carrito (solo clientes; el admin no tiene carrito) ---- */
     case 'agregar_carrito':
         if (!AuthControlador::autenticado()) { redirigir('login'); }
+        if (AuthControlador::esAdmin()) { redirigir('admin'); }
         $car = new CarritoControlador();
         [$tipo, $msg] = $car->agregar((int) $_POST['no_producto'], (int) ($_POST['cantidad'] ?? 1));
         flash($tipo, $msg);
@@ -73,11 +74,13 @@ switch ($accion) {
         break;
 
     case 'actualizar_carrito':
+        if (AuthControlador::esAdmin()) { redirigir('admin'); }
         (new CarritoControlador())->actualizar((int) $_POST['no_producto'], (int) $_POST['cantidad']);
         redirigir('carrito');
         break;
 
     case 'quitar_carrito':
+        if (AuthControlador::esAdmin()) { redirigir('admin'); }
         (new CarritoControlador())->quitar((int) $_POST['no_producto']);
         redirigir('carrito');
         break;
@@ -85,6 +88,7 @@ switch ($accion) {
     /* ---- Checkout: crear pedido ---- */
     case 'crear_pedido':
         if (!AuthControlador::autenticado()) { redirigir('login'); }
+        if (AuthControlador::esAdmin()) { redirigir('admin'); }
         $car = new CarritoControlador();
         $ped = new PedidoControlador();
         [$tipo, $msg, $no] = $ped->crearPedido($_POST, $car->items());
@@ -101,14 +105,14 @@ switch ($accion) {
     /* ---- Administración: productos ---- */
     case 'admin_agregar_producto':
         if (!AuthControlador::esAdmin()) { redirigir('login'); }
-        [$tipo, $msg] = (new ProductoControlador())->agregarProducto($_POST);
+        [$tipo, $msg] = (new ProductoControlador())->agregarProducto($_POST, $_FILES);
         flash($tipo, $msg);
         redirigir('admin');
         break;
 
     case 'admin_editar_producto':
         if (!AuthControlador::esAdmin()) { redirigir('login'); }
-        [$tipo, $msg] = (new ProductoControlador())->editarProducto($_POST);
+        [$tipo, $msg] = (new ProductoControlador())->editarProducto($_POST, $_FILES);
         flash($tipo, $msg);
         redirigir('admin');
         break;
@@ -118,6 +122,14 @@ switch ($accion) {
         [$tipo, $msg] = (new ProductoControlador())->eliminarProducto((int) $_POST['no_producto']);
         flash($tipo, $msg);
         redirigir('admin');
+        break;
+
+    /* ---- Administración: reabastecer inventario ---- */
+    case 'admin_reabastecer_producto':
+        if (!AuthControlador::esAdmin()) { redirigir('login'); }
+        [$tipo, $msg] = (new ProductoControlador())->reabastecer((int) $_POST['no_producto'], (int) $_POST['cantidad']);
+        flash($tipo, $msg);
+        redirigir('admin/reabastecer');
         break;
 
     /* ---- Administración: cambiar estado de pedido ---- */

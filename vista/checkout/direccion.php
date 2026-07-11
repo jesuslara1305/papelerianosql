@@ -11,6 +11,24 @@ $sub   = $car->subtotal();
 if (empty($items)) { redirigir('carrito'); }
 ?>
 <main class="container py-5">
+    <!-- Pasos del checkout -->
+    <div class="checkout-steps">
+        <div class="step done">
+            <div class="step-circle"><i class="fas fa-shopping-cart"></i></div>
+            <div class="step-label">Carro de Compras</div>
+        </div>
+        <div class="step-line done"></div>
+        <div class="step active">
+            <div class="step-circle"><i class="fas fa-info-circle"></i></div>
+            <div class="step-label">Información de Envío</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="step">
+            <div class="step-circle"><i class="fas fa-credit-card"></i></div>
+            <div class="step-label">Pago</div>
+        </div>
+    </div>
+
     <h2 class="fw-bold mb-4">Finalizar Compra</h2>
     <div class="row g-4">
         <!-- Formulario de envío -->
@@ -54,7 +72,7 @@ if (empty($items)) { redirigir('carrito'); }
                 <h5 class="fw-bold mb-3">Resumen del Pedido</h5>
                 <?php foreach ($items as $i): ?>
                     <div class="d-flex align-items-center gap-2 mb-3">
-                        <img src="<?php echo e($i['imagen']); ?>" style="width:46px;height:46px;object-fit:cover;border-radius:8px;">
+                        <img src="<?php echo e(imagenSrc($i['imagen'])); ?>" style="width:46px;height:46px;object-fit:cover;border-radius:8px;">
                         <div class="flex-grow-1">
                             <div class="small fw-semibold"><?php echo e($i['nombre']); ?></div>
                             <div class="small text-muted">Cantidad: <?php echo $i['cantidad']; ?></div>
@@ -69,9 +87,12 @@ if (empty($items)) { redirigir('carrito'); }
                 <div class="d-flex justify-content-between mb-2">
                     <span class="text-muted">Envío</span><span class="text-success">Gratis</span>
                 </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted">IVA (16%)</span><span><?php echo precio($sub * 0.16); ?></span>
+                </div>
                 <hr>
                 <div class="d-flex justify-content-between">
-                    <span class="fw-bold">Total</span><span class="prod-precio"><?php echo precio($sub); ?></span>
+                    <span class="fw-bold">Total</span><span class="prod-precio"><?php echo precio($sub + $sub * 0.16); ?></span>
                 </div>
             </div>
         </div>
